@@ -25,6 +25,9 @@
 /* Begin PBXFileReference section */
 		4E57D1451CB375DF00DC6CD7 /* hihoCode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hihoCode; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E57D1481CB375DF00DC6CD7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		4E57D14F1CB375FE00DC6CD7 /* Lv1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lv1.h; sourceTree = "<group>"; };
+		4E57D1501CB3BEF600DC6CD7 /* Lv2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lv2.h; sourceTree = "<group>"; };
+		4E57D1511CB3CCC700DC6CD7 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,9 @@
 			isa = PBXGroup;
 			children = (
 				4E57D1481CB375DF00DC6CD7 /* main.cpp */,
+				4E57D14F1CB375FE00DC6CD7 /* Lv1.h */,
+				4E57D1501CB3BEF600DC6CD7 /* Lv2.h */,
+				4E57D1511CB3CCC700DC6CD7 /* Util.h */,
 			);
 			path = hihoCode;
 			sourceTree = "<group>";

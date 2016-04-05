@@ -7,9 +7,14 @@
 //
 
 #include <iostream>
+#include <vector>
+#include "Lv1.h"
+#include "Lv2.h"
+#include "Util.h"
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    L1015();
+    
+    system("pause");
     return 0;
 }
