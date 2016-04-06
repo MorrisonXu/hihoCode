@@ -113,29 +113,119 @@ void L1014() {
 }
 
 #pragma mark - L1015
+// Time Limit Exceeded
 int L1015SearchPattern(string line, string pattern) {
-    int ptrPattern = 0;
-    int ptrPatternInLine = 0;
     int count = 0;
     for (int i = 0; i < line.length(); i++) {
-        if (line[i] == pattern[ptrPattern]) {
-            ptrPatternInLine = i;
-            for (int j = 0; j < pattern.length(); j++) {
-                if (pattern[++ptrPattern] == line[++ptrPatternInLine] && ptrPattern == pattern.length())
-                    count++;
+        if (line[i] == pattern[0]) {
+            int ptr = 0;
+            while (++ptr < pattern.length()) {
+                if (pattern[ptr] != line[i + ptr])
+                    break;
             }
+            if (ptr == pattern.length())
+                count++;
         }
     }
     return count;
 }
 
+// Time Limit Exceeded
+int L1015SearchPatternPlus(string line, string pattern) {
+    int count = 0;
+    int ptrNext;
+    int i = 0;
+    while (i < line.length()) {
+        cout << i;
+        ptrNext = i;
+        int ptr = 0;
+        do {
+            if (ptr > 0 && ptrNext == i && line[i + ptr] == pattern[0])
+                ptrNext = i + ptr - 1;
+            if (line[i + ptr] != pattern[ptr])
+                break;
+        } while (++ptr < pattern.length());
+        if (ptr == pattern.length())
+            count++;
+        i = ptrNext + 1;
+    }
+    cout << endl;
+    return count;
+}
+
+// KMP Algorithm:
+// Introduction: http://www.ruanyifeng.com/blog/2013/05/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm.html
+// Generate Next[]: http://blog.csdn.net/yearn520/article/details/6729426 (Give a clue, but not the best!)
+// Summary code: http://kenby.iteye.com/blog/1025599
+
+// indexPattern:_ 0 1 2 3 4 5 6 7 8
+// pattern:     _ a g c t a g c a g
+// i:           0 1 2 3 4 5 6 7 8 9
+// next:        0 0 0 0 0 1 2 3 1 2
+// So we can use next(indexPattern) to trace back to the correct position in pattern
+// For example: if we find difference at indexPattern = 8, then we should trace back to the next value of indexPattern = 7
+//              the next value of indexPattern = 7 is next[indexPattern], so we trace back to next[indexPattern], and keep compare from indexPattern
+vector<int> L1015GenerateNext(string pattern) {
+    vector<int> next(pattern.length() + 1, 0);
+    next[0] = next[1] = 0;
+    int k = 0; // k = next[i-1] at first, the next value of last char, the find sub-symmetry string recursively
+    for (int i = 2; i < next.size(); i++) {
+        // Transformation of index, make the code more readable
+        // next[i] is the next value of pattern[indexPattern]
+        int indexPattern = i - 1;
+        for (; k != 0 && pattern[indexPattern] != pattern[k]; k = next[k]); // k = 0 means no sub-symmetry string
+        // k = 0: compare to first char, if pattern[indexPattern] == pattern[k] is true, next value becomes 1
+        // k > 0: pattern[indexPattern] == pattern[k] must be true(because the end condition in for loop);
+        //        So the sub-symmetry string length add 1, [0, (pattern[k]-1)] => [0, pattern[k]]
+        // So, we can combine 2 conditions in 1 line
+        if (pattern[indexPattern] == pattern[k]) k++;
+        next[i] = k;
+    }
+    return next;
+}
+
+int L1015SearchPatternKMP(string line, string pattern) {
+    vector<int> next = L1015GenerateNext(pattern);
+    if (DEBUG_MSG)
+        showVector(next);
+    int count = 0;
+    int ptrPattern = 0;
+    int ptrLine = 0;
+    while (ptrLine < line.length()) {
+        // Keep searching the same char until:
+        // 1. All match
+        // 2. Find the difference at [ptrLine, ptrPattern]
+        for (ptrPattern = next[ptrPattern]; ptrPattern < pattern.length() && line[ptrLine] == pattern[ptrPattern]; ptrLine++, ptrPattern++);
+        if (ptrPattern == 0) ptrLine++;
+        if (ptrPattern == pattern.length()) count++;
+    }
+    
+    return count;
+}
+
 void L1015() {
-    int N = 5;
-    vector<string> lines = {"HAHAHA", "BABABABABABABABABB"};
-    vector<string> patterns = {"HA", "BABABB"};
+    int N;
+    string s;
+    vector<string> lines;
+    vector<string> patterns;
+    
+    if (DEBUG_INPUT) {
+        N = 5;
+        lines = {"HAHAHA", "WQN", "ADADADA", "BABABABABABABABABB", "ADDAADAADDAAADAAD"};
+        patterns = {"HA", "WQN", "ADA", "BABABB", "DAD"};
+    } else {
+        cin >> N;
+        cin.ignore();
+        for (int i = 0; i < N; i++) {
+            getline(cin, s);
+            patterns.push_back(s);
+            getline(cin, s);
+            lines.push_back(s);
+        }
+    }
     
     for (int i = 0; i < N; i++) {
-        L1015SearchPattern(lines[i], patterns[i]);
+        cout << L1015SearchPatternKMP(lines[i], patterns[i]) << endl;
     }
 }
 

@@ -12,10 +12,14 @@
 #include <vector>
 using namespace std;
 
+#define DEBUG_MSG   0
+#define DEBUG_INPUT 0
+
 template <typename T>
 void showVector(vector<T> vec) {
     for (typename vector<T>::iterator iter = vec.begin(); iter != vec.end(); iter++)
-        cout << *iter << endl;
+        cout << *iter << " ";
+    cout << endl;
 }
 
 #endif
