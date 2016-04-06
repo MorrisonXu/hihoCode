@@ -12,8 +12,8 @@
 #include <vector>
 using namespace std;
 
-#define DEBUG_MSG   0
-#define DEBUG_INPUT 0
+#define DEBUG_MSG   1
+#define DEBUG_INPUT 1
 
 template <typename T>
 void showVector(vector<T> vec) {

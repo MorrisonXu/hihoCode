@@ -8,10 +8,7 @@
 
 #ifndef hihoCode_Lv1_h
 #define hihoCode_Lv1_h
-#include <iostream>
-#include <vector>
 #include "Util.h"
-using namespace std;
 
 #pragma mark - L1000
 void L1000() {

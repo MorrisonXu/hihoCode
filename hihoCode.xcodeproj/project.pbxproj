@@ -28,6 +28,7 @@
 		4E57D14F1CB375FE00DC6CD7 /* Lv1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lv1.h; sourceTree = "<group>"; };
 		4E57D1501CB3BEF600DC6CD7 /* Lv2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lv2.h; sourceTree = "<group>"; };
 		4E57D1511CB3CCC700DC6CD7 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		4E57D1521CB4CFBF00DC6CD7 /* SortAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortAlgorithm.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +65,7 @@
 				4E57D14F1CB375FE00DC6CD7 /* Lv1.h */,
 				4E57D1501CB3BEF600DC6CD7 /* Lv2.h */,
 				4E57D1511CB3CCC700DC6CD7 /* Util.h */,
+				4E57D1521CB4CFBF00DC6CD7 /* SortAlgorithm.h */,
 			);
 			path = hihoCode;
 			sourceTree = "<group>";

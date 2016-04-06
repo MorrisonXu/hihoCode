@@ -8,10 +8,7 @@
 
 #ifndef hihoCode_Lv2_h
 #define hihoCode_Lv2_h
-#include <iostream>
-#include <vector>
 #include "Util.h"
-using namespace std;
 
 #pragma mark - L1014
 class L1014TrieNode {

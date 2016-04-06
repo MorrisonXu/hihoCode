@@ -10,7 +10,6 @@
 #include <vector>
 #include "Lv1.h"
 #include "Lv2.h"
-#include "Util.h"
 
 int main(int argc, const char * argv[]) {
     L1015();
