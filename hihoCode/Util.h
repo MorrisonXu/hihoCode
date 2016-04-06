@@ -12,14 +12,30 @@
 #include <vector>
 using namespace std;
 
-#define DEBUG_MSG   1
-#define DEBUG_INPUT 1
+#define DEBUG_MSG   0
+#define DEBUG_INPUT 0
 
+#pragma mark - 打印Vector
 template <typename T>
-void showVector(vector<T> vec) {
+void showVector(vector<T> &vec) {
     for (typename vector<T>::iterator iter = vec.begin(); iter != vec.end(); iter++)
         cout << *iter << " ";
     cout << endl;
+}
+
+template <typename T>
+void showVector(vector<T> &vec, int l, int r) {
+    for (int i = l; i <= r; i++)
+        cout << vec[i] << " ";
+    cout << endl;
+}
+
+#pragma mark - 交换
+template <typename T>
+void mySwap(T &l, T &r) {
+    T tmp = l;
+    l = r;
+    r = tmp;
 }
 
 #endif

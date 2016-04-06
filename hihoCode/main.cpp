@@ -10,9 +10,12 @@
 #include <vector>
 #include "Lv1.h"
 #include "Lv2.h"
+#include "SortAlgorithm.h"
 
 int main(int argc, const char * argv[]) {
-    L1015();
+    vector<int> vecToSort = {70, 80, 31, 37, 10, 1, 48, 60, 33, 80};
+    sa_MergeSort(vecToSort);
+    showVector(vecToSort);
     
     system("pause");
     return 0;
