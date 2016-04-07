@@ -109,7 +109,7 @@ void L1014() {
     L1014SearchPrefixes(L1014BuildTrie(words), prefixes);
 }
 
-#pragma mark - L1015
+#pragma mark - L1015 KMP
 // Time Limit Exceeded
 int L1015SearchPattern(string line, string pattern) {
     int count = 0;
@@ -223,6 +223,113 @@ void L1015() {
     
     for (int i = 0; i < N; i++) {
         cout << L1015SearchPatternKMP(lines[i], patterns[i]) << endl;
+    }
+}
+
+#pragma mark - L1032 最长回文Manacher算法 O(n)
+string L1032PreprocessString(string s) {
+    string processed = "$";
+    for (int i = 0; i < s.length(); i++) {
+        processed += "#";
+        processed += s[i];
+    }
+    processed += "#";
+    return processed;
+}
+
+// 因为加了辅助字符'$', 后续下标均从1开始
+int L1032FindRightLenAtPos(string s, int pos, int startLen = 1) {
+    for (; (pos - startLen) > 0 && (pos + startLen) < s.length() && s[pos - startLen] == s[pos + startLen]; startLen++);
+    return startLen;
+}
+
+vector<int> L1032BuildRL(string processed) {
+    vector<int> RL(processed.length(), 1);
+    int maxRight = 1;
+    int pos = 1;
+    for (int i = 2; i < processed.length(); i++) {
+        if (i > maxRight) {
+            RL[i] = L1032FindRightLenAtPos(processed, i);
+            maxRight = pos + RL[i] - 1;
+            pos = i;
+        } else {
+            int iSymmetryOfPos = 2 * pos - 1;
+            int iSymmetryLeft = iSymmetryOfPos - RL[iSymmetryOfPos] + 1;
+            int posLeft = pos - RL[pos] + 1;
+            // In / Out [pos - maxRight, pos + maxRight]
+            int startRightLen = (iSymmetryLeft >= posLeft) ? RL[iSymmetryOfPos] : maxRight - i + 1;
+            RL[i] = L1032FindRightLenAtPos(processed, i, startRightLen);
+            int newRight = i + RL[i] - 1;
+            if (newRight > maxRight) {
+                pos = i;
+                maxRight = newRight;
+            }
+        }
+    }
+    return RL;
+}
+
+// Time Limit Exceeded
+int L1032Manacher(string s) {
+    string processed = L1032PreprocessString(s);
+    if (DEBUG_MSG) cout << processed << endl;
+    vector<int> RL = L1032BuildRL(processed);
+    if (DEBUG_MSG) showVector(RL, "");
+    
+    int maxLen = 0;
+    for (int i = 2; i < processed.length(); maxLen = max(maxLen, RL[i] - 1) ,i += 2);
+    
+    return maxLen;
+}
+
+// Wrong Answer ？ - 没找到原因
+int L1032ManacherPlus(string s) {
+    string processed = L1032PreprocessString(s);
+    // RL值表示向右最长, 包含自己
+    vector<int> RL(processed.length(), 1);
+    int maxRL = 1;
+    int pos = 1;
+    // 以一个闭区间计算
+    for (int i = 1; i < processed.length(); i++) {
+        // 如果i在(pos - maxRight, pos + maxRight)区间分两种情况：
+        // 设 j = 2 * pos - i
+        // 1. j - RL[j]未超过下边界: 则RL[i] >= RL[2*pos - i];
+        // 2. j - RL[j]超过: 则RL[i] >= maxRight - i。
+        // 两种情况, 都是定了一个基值, 再次基础上左右扩展, 所以先取最小的
+        // 否则从1开始计数
+        if (i <= RL[pos] + pos - 1)
+            RL[i] = min(RL[2*pos - i], RL[pos] + pos - i);
+        else
+            RL[i] = 1;
+        for (; i - RL[i] > 0 && i + RL[i] <= processed.length() && processed[i - RL[i]] == processed[i + RL[i]]; RL[i]++);
+        if (i + RL[i] > pos + RL[pos])
+            pos = i;
+        maxRL = max(maxRL, RL[i]);
+    }
+    if (DEBUG_MSG) showVector(RL, "");
+    return maxRL - 1;
+}
+
+void L1032() {
+    int N;
+    string s;
+    vector<string> lines;
+    
+    if (DEBUG_INPUT) {
+        N = 3;
+        lines = {"abababa", "aaaabaa", "acacdas"};
+    } else {
+        cin >> N;
+        cin.ignore();
+        for (int i = 0; i < N; i++) {
+            getline(cin, s);
+            lines.push_back(s);
+        }
+    }
+    
+    for (int i = 0; i < N; i++) {
+//        cout << L1032Manacher(lines[i]) << endl;
+        cout << L1032ManacherPlus(lines[i]) << endl;
     }
 }
 
